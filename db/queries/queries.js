@@ -57,3 +57,11 @@ async function deleteMessage(messageId) {
 
   return result[0];
 }
+
+module.exports = {
+  getMessages,
+  getUser,
+  createMessage,
+  deleteUser,
+  deleteMessage,
+};

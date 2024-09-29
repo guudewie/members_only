@@ -11,8 +11,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.9",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
     "express": "^4.21.0",
     "express-async-handler": "^1.2.0",
     "express-ejs-layouts": "^2.5.1",

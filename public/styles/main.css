@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.signup-bg {
+    background-image: url("../assets/layered-waves.svg");
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

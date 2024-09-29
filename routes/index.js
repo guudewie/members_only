@@ -1,44 +1,47 @@
 const express = require("express");
 const router = express.Router();
+const controller = require("../controllers/indexController");
 
 /*** HOME ***/
 
 // GET / - Display messages
-router.get("/" /* controller.method */);
+router.get("/", (req, res) => res.send("Not implemented yet"));
 
 /*** LOGIN ***/
 
 // GET /login - Render login form
-router.get("/login" /* controller.method */);
+router.get("/login", (req, res) => res.send("Not implemented yet"));
 
 // POST /login - Process login
-router.post("/login" /* controller.method */);
+router.post("/login", (req, res) => res.send("Not implemented yet"));
 
 /*** SIGNUP ***/
 
 // GET /signup - Render signup form
-router.get("/signup" /* controller.method */);
+router.get("/signup", controller.getSignupForm);
 
 // POST /signup - Process login
-router.post("/signup" /* controller.method */);
+router.post("/signup", (req, res) => res.send("Not implemented yet"));
 
 /*** WRITE MESSAGE ***/
 
 // GET /message - Render create message form
-router.get("/message" /* controller.method */);
+router.get("/message", (req, res) => res.send("Not implemented yet"));
 
 // POST /message - Process message form
-router.post("/message" /* controller.method */);
+router.post("/message", (req, res) => res.send("Not implemented yet"));
 
 /*** LOGOUT ***/
 
 // POST /logout - Log user out
-router.post("/logout" /* controller.method */);
+router.post("/logout", (req, res) => res.send("Not implemented yet"));
 
 /*** MEMBERSHIP ***/
 
 // GET /membership - Get form to get memberships
-router.post("/membership" /* controller.method */);
+router.post("/membership", (req, res) => res.send("Not implemented yet"));
 
 // POST /membership - Process membership application
-router.post("/membership" /* controller.method */);
+router.post("/membership", (req, res) => res.send("Not implemented yet"));
+
+module.exports = router;

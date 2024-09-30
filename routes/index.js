@@ -10,7 +10,7 @@ router.get("/", (req, res) => res.send("Not implemented yet"));
 /*** LOGIN ***/
 
 // GET /login - Render login form
-router.get("/login", (req, res) => res.send("Not implemented yet"));
+router.get("/login", controller.getLoginForm);
 
 // POST /login - Process login
 router.post("/login", (req, res) => res.send("Not implemented yet"));

@@ -5,7 +5,7 @@ const controller = require("../controllers/indexController");
 /*** HOME ***/
 
 // GET / - Display messages
-router.get("/", (req, res) => res.send("Not implemented yet"));
+router.get("/", controller.getMainPage);
 
 /*** LOGIN ***/
 

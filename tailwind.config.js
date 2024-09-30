@@ -20,6 +20,14 @@ module.exports = {
           200: "#eab308",
         },
       },
+      ringColor: {
+        DEFAULT: "#eab308",
+      },
+    },
+  },
+  variants: {
+    extend: {
+      ringColor: ["focus"],
     },
   },
   plugins: [require("@tailwindcss/forms")],

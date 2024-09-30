@@ -6,6 +6,11 @@ const getSignupForm = asyncHandler(async (req, res, next) => {
   res.render("partials/signup");
 });
 
+const getLoginForm = asyncHandler(async (req, res, next) => {
+  res.render("partials/login");
+});
+
 module.exports = {
   getSignupForm,
+  getLoginForm,
 };

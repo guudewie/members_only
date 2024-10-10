@@ -1,4 +1,7 @@
+require("dotenv").config();
 const pool = require("../pool");
+
+console.log(process.env);
 
 /*** READ ***/
 
@@ -23,7 +26,21 @@ async function createMessage(userId, title, message) {
           INSERT INTO messages (user_id, title, message)
           VALUES ($1, $2, $3)
           RETURNING *
-          `[(userId, title, message)]
+          `,
+    [userId, title, message]
+  );
+
+  return result[0];
+}
+
+async function createUser(first_name, last_name, username, hash, status) {
+  const result = await pool.query(
+    `
+    INSERT INTO users (first_name, last_name, username, pass_hash, status)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *
+  `,
+    [first_name, last_name, username, hash, status]
   );
 
   return result[0];
@@ -63,6 +80,7 @@ module.exports = {
   getMessages,
   getUser,
   createMessage,
+  createUser,
   deleteUser,
   deleteMessage,
 };

@@ -7,10 +7,11 @@ async function getMessages() {
   return result[0];
 }
 
-async function getUser(userId) {
-  const result = await pool.query(`SELECT * FROM users WHERE users.id = $1`, [
-    userId,
-  ]);
+async function getUser(username) {
+  const result = await pool.query(
+    `SELECT * FROM users WHERE users.username = $1`,
+    [username]
+  );
   return result[0];
 }
 

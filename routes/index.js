@@ -13,7 +13,7 @@ router.get("/", controller.getMainPage);
 router.get("/login", controller.getLoginForm);
 
 // POST /login - Process login
-router.post("/login", (req, res) => res.send("Not implemented yet"));
+//router.post("/login", controller.login);
 
 /*** SIGNUP ***/
 
@@ -21,7 +21,7 @@ router.post("/login", (req, res) => res.send("Not implemented yet"));
 router.get("/signup", controller.getSignupForm);
 
 // POST /signup - Process login
-router.post("/signup", (req, res) => res.send("Not implemented yet"));
+router.post("/signup", controller.signup);
 
 /*** WRITE MESSAGE ***/
 

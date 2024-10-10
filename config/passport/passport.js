@@ -1,9 +1,9 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
-const Pool = require("./db/pool");
+const Pool = require("../../db/pool");
 const db = require("../../db/queries/queries");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const verifyCallback = async (username, password, done) => {
   try {
@@ -26,5 +26,10 @@ const verifyCallback = async (username, password, done) => {
 };
 
 const strategy = new LocalStrategy(verifyCallback);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+passport.deserializeUser(() => {});
 
 passport.use(strategy);

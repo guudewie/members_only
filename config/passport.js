@@ -1,8 +1,8 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
-const Pool = require("../../db/pool");
-const db = require("../../db/queries/queries");
+const Pool = require("../db/pool");
+const db = require("../db/queries/queries");
 const bcrypt = require("bcryptjs");
 
 const verifyCallback = async (username, password, done) => {

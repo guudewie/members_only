@@ -1,13 +1,11 @@
 require("dotenv").config();
-const pool = require("../pool");
-
-console.log(process.env);
+const pool = require("../../config/pool");
 
 /*** READ ***/
 
 async function getMessages() {
   const result = await pool.query(`SELECT * FROM messages`);
-  return result[0];
+  return result.rows[0];
 }
 
 async function getUser(username) {
@@ -15,7 +13,14 @@ async function getUser(username) {
     `SELECT * FROM users WHERE users.username = $1`,
     [username]
   );
-  return result[0];
+  return result.rows[0];
+}
+
+async function getUserById(userId) {
+  const result = await pool.query(`SELECT * FROM users WHERE users.id = $1`, [
+    userId,
+  ]);
+  return result.rows[0];
 }
 
 /*** WRITE ***/
@@ -30,7 +35,7 @@ async function createMessage(userId, title, message) {
     [userId, title, message]
   );
 
-  return result[0];
+  return result.rows[0];
 }
 
 async function createUser(first_name, last_name, username, hash, status) {
@@ -43,7 +48,7 @@ async function createUser(first_name, last_name, username, hash, status) {
     [first_name, last_name, username, hash, status]
   );
 
-  return result[0];
+  return result.rows[0];
 }
 
 /*** UPDATE ***/
@@ -60,7 +65,7 @@ async function deleteUser(userId) {
     [userId]
   );
 
-  return result[0];
+  return result.rows[0];
 }
 
 async function deleteMessage(messageId) {
@@ -73,12 +78,13 @@ async function deleteMessage(messageId) {
     [messageId]
   );
 
-  return result[0];
+  return result.rows[0];
 }
 
 module.exports = {
   getMessages,
   getUser,
+  getUserById,
   createMessage,
   createUser,
   deleteUser,

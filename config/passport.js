@@ -1,7 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
-const Pool = require("../db/pool");
+const Pool = require("./pool");
 const db = require("../db/queries/queries");
 const bcrypt = require("bcryptjs");
 

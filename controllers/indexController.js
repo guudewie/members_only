@@ -1,61 +1,48 @@
 const asyncHandler = require("express-async-handler");
 const db = require("../db/queries/queries.js");
-const { body, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 
+const signupValidator = require("../validators/signup.js");
+
 const getMainPage = asyncHandler(async (req, res, next) => {
+  console.log(req.user);
   res.render("partials/main");
 });
 
 const getSignupForm = asyncHandler(async (req, res, next) => {
-  res.render("partials/signup");
+  res.render("partials/signup", {
+    errors: [],
+    formData: [],
+  });
 });
 
 const signup = [
-  body("firstname")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Please fill in this field"),
-  body("lastname")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Please fill in this field"),
-  body("username")
-    .trim()
-    .custom(async (value) => {
-      const user = db.getUser(req.body.username);
-      if (user) {
-        throw new Error("Username not unique");
-      }
-    })
-    .withMessage("Username already taken"),
-  body("password")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Please fill in this field"),
-  body("confirm_password")
-    .trim()
-    .custom(async (value) => {
-      if (req.body.password !== req.body.confirm_password) {
-        throw new Error("Passwords don't match");
-      }
-    })
-    .withMessage("Passwords don't match"),
+  signupValidator,
   asyncHandler(async (req, res, next) => {
-    bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
-      if (err) next(err);
+    const errors = validationResult(req);
 
-      await db.createUser(
-        req.body.firstname,
-        req.body.lastname,
-        req.body.username,
-        hashedPassword,
-        "normal"
-      );
+    if (!errors.isEmpty()) {
+      return res.status(400).render("partials/signup", {
+        formData: req.body,
+        errors: errors.mapped(),
+      });
+    } else {
+      bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+        if (err) next(err);
 
-      res.redirect("/");
-    });
+        await db.createUser(
+          req.body.firstname,
+          req.body.lastname,
+          req.body.username,
+          hashedPassword,
+          "normal"
+        );
+
+        res.redirect("/login");
+      });
+    }
   }),
 ];
 
@@ -63,16 +50,27 @@ const getLoginForm = asyncHandler(async (req, res, next) => {
   res.render("partials/login");
 });
 
-const login = [
-  passport.authenticate("login"),
-  asyncHandler(async (req, res, next) => {
-    res.render("partials/login");
-  }),
-];
+const login = passport.authenticate("local", {
+  failureRedirect: "/login",
+  successRedirect: "/",
+});
+
+const logout = asyncHandler((req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
+const message = asyncHandler((req, res, next) => {});
 
 module.exports = {
   getSignupForm,
   getLoginForm,
   getMainPage,
   signup,
+  login,
+  logout,
 };

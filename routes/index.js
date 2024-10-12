@@ -13,7 +13,7 @@ router.get("/", controller.getMainPage);
 router.get("/login", controller.getLoginForm);
 
 // POST /login - Process login
-//router.post("/login", controller.login);
+router.post("/login", controller.login);
 
 /*** SIGNUP ***/
 
@@ -34,7 +34,7 @@ router.post("/message", (req, res) => res.send("Not implemented yet"));
 /*** LOGOUT ***/
 
 // POST /logout - Log user out
-router.post("/logout", (req, res) => res.send("Not implemented yet"));
+router.get("/logout", controller.logout);
 
 /*** MEMBERSHIP ***/
 

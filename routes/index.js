@@ -25,11 +25,8 @@ router.post("/signup", controller.signup);
 
 /*** WRITE MESSAGE ***/
 
-// GET /message - Render create message form
-router.get("/message", (req, res) => res.send("Not implemented yet"));
-
 // POST /message - Process message form
-router.post("/message", (req, res) => res.send("Not implemented yet"));
+router.post("/message", controller.writeMessage);
 
 /*** LOGOUT ***/
 
@@ -38,10 +35,7 @@ router.get("/logout", controller.logout);
 
 /*** MEMBERSHIP ***/
 
-// GET /membership - Get form to get memberships
-router.post("/membership", (req, res) => res.send("Not implemented yet"));
-
 // POST /membership - Process membership application
-router.post("/membership", (req, res) => res.send("Not implemented yet"));
+router.post("/member", controller.becomeMember);
 
 module.exports = router;

@@ -23,8 +23,6 @@ const signupValidator = [
     .isLength({ min: 8 })
     .withMessage("'Password must be 8 characters long'")
     .custom((value) => {
-      console.log(value);
-      console.log(!/\d/.test(value));
       if (!/\d/.test(value)) {
         throw new Error("'Password must contain a number'");
       }

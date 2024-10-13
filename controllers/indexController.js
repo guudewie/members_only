@@ -54,11 +54,17 @@ const getLoginForm = asyncHandler(async (req, res, next) => {
   if (req.user) {
     return res.redirect("/");
   }
-  res.render("partials/login");
+
+  //save and clear error messages
+  const error = req.session.messages || [];
+  req.session.messages = [];
+
+  res.render("partials/login", { error: error });
 });
 
 const login = passport.authenticate("local", {
   failureRedirect: "/login",
+  failureMessage: true,
   successRedirect: "/",
 });
 

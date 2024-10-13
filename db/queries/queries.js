@@ -11,7 +11,8 @@ async function getMessages() {
       m.user_id,
       TO_CHAR(m.created_at, 'HH24:MI') AS time_of_day,
       TO_CHAR(m.created_at, 'Dy DD Mon YYYY') AS day_of_year,
-      u.username
+      u.username,
+      u.status
     FROM
       messages AS m
       LEFT JOIN users AS u ON m.user_id = u.id

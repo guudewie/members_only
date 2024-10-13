@@ -5,13 +5,17 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 
 const signupValidator = require("../validators/signup.js");
+const messageValidator = require("../validators/message.js");
 
 const getMainPage = asyncHandler(async (req, res, next) => {
-  console.log(req.user);
-  res.render("partials/main");
+  const messages = await db.getMessages();
+  res.render("partials/main", { errors: [], messages: messages });
 });
 
 const getSignupForm = asyncHandler(async (req, res, next) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
   res.render("partials/signup", {
     errors: [],
     formData: [],
@@ -47,6 +51,9 @@ const signup = [
 ];
 
 const getLoginForm = asyncHandler(async (req, res, next) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
   res.render("partials/login");
 });
 
@@ -64,7 +71,35 @@ const logout = asyncHandler((req, res, next) => {
   });
 });
 
-const message = asyncHandler((req, res, next) => {});
+const writeMessage = [
+  messageValidator,
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    const messages = await db.getMessages();
+
+    if (!errors.isEmpty()) {
+      return res.render("partials/main", {
+        errors: errors.mapped(),
+        messages: messages,
+      });
+    } else {
+      await db.createMessage(req.user.id, req.body.message);
+    }
+
+    res.redirect("/");
+  }),
+];
+
+const becomeMember = asyncHandler(async (req, res, next) => {
+  console.log(req.body.password);
+  console.log(process.env.MEMBER_PW);
+  if (req.body.password !== process.env.MEMBER_PW) {
+    return res.redirect("/");
+  }
+
+  await db.updateUserStatus(req.user.id, "member");
+  return res.redirect("/");
+});
 
 module.exports = {
   getSignupForm,
@@ -73,4 +108,6 @@ module.exports = {
   signup,
   login,
   logout,
+  writeMessage,
+  becomeMember,
 };

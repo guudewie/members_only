@@ -90,9 +90,12 @@ const writeMessage = [
   }),
 ];
 
+const deleteMessage = asyncHandler(async (req, res, next) => {
+  await db.deleteMessage(req.params.id);
+  res.redirect("/");
+});
+
 const becomeMember = asyncHandler(async (req, res, next) => {
-  console.log(req.body.password);
-  console.log(process.env.MEMBER_PW);
   if (req.body.password !== process.env.MEMBER_PW) {
     return res.redirect("/");
   }
@@ -110,4 +113,5 @@ module.exports = {
   logout,
   writeMessage,
   becomeMember,
+  deleteMessage,
 };

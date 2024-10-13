@@ -6,6 +6,7 @@ const pool = require("../../config/pool");
 async function getMessages() {
   const result = await pool.query(`
     SELECT
+      m.id,
       m.message,
       m.user_id,
       TO_CHAR(m.created_at, 'HH24:MI') AS time_of_day,
@@ -96,9 +97,9 @@ async function deleteUser(userId) {
 async function deleteMessage(messageId) {
   const result = await pool.query(
     `
-      DELETE * FROM messages WHERE messages.id = $1
-      VALUES ($1)
-      RETURNING *
+      DELETE
+      FROM messages
+      WHERE messages.id = $1
       `,
     [messageId]
   );

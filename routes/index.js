@@ -28,6 +28,9 @@ router.post("/signup", controller.signup);
 // POST /message - Process message form
 router.post("/message", controller.writeMessage);
 
+// POST /message/delete/:id - Process message form
+router.get("/message/delete/:id", controller.deleteMessage);
+
 /*** LOGOUT ***/
 
 // POST /logout - Log user out

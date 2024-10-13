@@ -1,0 +1,35 @@
+<div class="hidden w-full h-full fixed z-20 top-13 end-0 backdrop-blur-sm" id="navbar-default">
+    <ul class="font-medium gap-4 w-4/5 md:w-3/5 ml-auto h-5/6 flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">  
+      <div class="flex sm:flex-row justify-center items-center">
+        <% if (currentUser) { %>
+            <div class="font-light text-lg mb-4">Welcome Back <b><%= currentUser.username %></b>!</div>
+            <% } else { %>
+            <div class="font-light text-lg mb-4">Wecome</div>
+        <% } %>
+      </div>
+        <% if (!currentUser) { %> 
+            <li>
+                <a href="/login" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-200 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" aria-current="page">Login</a>
+            </li>
+            <li>
+                <a href="/signup" class="block py-2 px-3 text-white bg-blue-700 hover:bg-blue-600 rounded dark:text-white ">Get started</a>
+            </li>
+        <% } %>
+        <% if (currentUser) { %> 
+            <% if (currentUser.status == "member" || currentUser.status == "admin") { %> 
+                <li>
+                    <button class="justify-center items-center flex w-full py-2 px-3 text-black border border-gray-300 rounded md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        You are member!
+                    </button>
+                </li>
+            <% } else { %> 
+                <li>
+                    <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="block w-full py-2 px-3 text-black border border-gray-300 rounded md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Become Member</button>
+                </li>
+            <% } %> 
+            <li>
+                <a href="/logout" class="block py-2 px-3 text-center text-white rounded bg-red-600 hover:bg-red-700 md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Log out</a>
+            </li>
+        <% } %>
+    </ul>
+</div>

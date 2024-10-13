@@ -1,30 +1,29 @@
 <%- include("../layout/header") %>
-<div class="w-full flex flex-col gap-10 justify-start items-center p-4 md:px-10 lg:px-24">
-    <div class="w-full h-2/3 sm:w-2/3 flex flex-col gap-8 overflow-scroll">
-        <div class="flex w-full items-center">
-            <%- include("./message") %>
-        </div>
-        <div class="flex w-full items-center">
-            <%- include("./message") %>
-        </div>
-        <div class="flex w-full items-center">
-            <%- include("./message") %>
-        </div>
-        <div class="flex w-full justify-end items-center">
-            <%- include("./messageSelf") %>
-        </div>
-        <div class="flex w-full items-center">
-            <%- include("./message") %>
-        </div>
-        <div class="flex w-full items-center">
-            <%- include("./message") %>
-        </div>
-        <div class="flex w-full items-center">
-            <%- include("./message") %>
-        </div>
-        <div class="flex w-full justify-end items-center">
-            <%- include("./messageSelf") %>
-        </div>
+<div class="w-full flex-grow flex flex-col gap-10 justify-start items-center p-4">
+    <div class="w-full sm:w-2/3 flex flex-col gap-8 overflow-scroll">
+        <% let lastDate = "" %> 
+        <% for (const i in messages) { %> 
+            <% const message = messages[i] %> 
+            <% if (message.day_of_year != lastDate) { %>
+                <% if (currentUser) { %>
+                    <div class="py-3 flex items-center text-xs font-normal text-gray-800 before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-white dark:before:border-neutral-600 dark:after:border-neutral-600"><%= message.day_of_year %></div>
+                <% } else { %>
+                    <div class="-z-10 py-3 blur-xs flex items-center text-xs font-normal text-gray-800 before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-white dark:before:border-neutral-600 dark:after:border-neutral-600"><%= message.day_of_year %></div>
+                <% } %>
+            <% } %>
+            <% lastDate = message.day_of_year %> 
+            <% if (currentUser && message.user_id == currentUser.id) { %>
+                <div class="flex w-full justify-end items-center">
+                    <%- include("./messageSelf", {message : message}) %>
+                </div>
+            <% } else { %>
+                <div class="flex w-full items-center">
+                    <%- include("./message", {message : message}) %>
+                </div>
+            <% } %>
+        <% } %>
     </div>
 </div>
-<%- include("./write") %>
+<% if (currentUser) { %> 
+    <%- include("./write") %>
+<% } %>

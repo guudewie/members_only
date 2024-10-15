@@ -80,7 +80,9 @@ const logout = asyncHandler((req, res, next) => {
 const writeMessage = [
   messageValidator,
   asyncHandler(async (req, res, next) => {
-    if (!req.isAuthenticated()) return res.status(401);
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Unauthorized. Please log in." });
+    }
     const errors = validationResult(req);
     const messages = await db.getMessages();
 

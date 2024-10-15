@@ -80,6 +80,7 @@ const logout = asyncHandler((req, res, next) => {
 const writeMessage = [
   messageValidator,
   asyncHandler(async (req, res, next) => {
+    if (!req.isAuthenticated()) return res.status(401);
     const errors = validationResult(req);
     const messages = await db.getMessages();
 
@@ -97,11 +98,19 @@ const writeMessage = [
 ];
 
 const deleteMessage = asyncHandler(async (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ error: "Unauthorized. Please log in." });
+  }
+
   await db.deleteMessage(req.params.id);
   res.redirect("/");
 });
 
 const becomeMember = asyncHandler(async (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ error: "Unauthorized. Please log in." });
+  }
+
   if (req.body.password !== process.env.MEMBER_PW) {
     return res.redirect("/");
   }
